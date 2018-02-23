@@ -38,6 +38,7 @@ close(pb)
 
 #Read the links
 links<-read.table("Data\\EmpregosLinks.txt")
+links<-unique(links)
 last<-nrow(links)
 pb <- txtProgressBar(min = 0, max = last)
 for(i in 1:last){
@@ -82,6 +83,5 @@ for(i in 1:last){
   }
   
   setTxtProgressBar(pb, i)
-  print(i)
 }
 close(pb)
