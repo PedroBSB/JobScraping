@@ -1,9 +1,11 @@
-#Read the Empregos Data
+#Read the Catho Data
 rm(list=ls())
 library(tidyverse)
 
-dat <- readLines("Data\\EmpregosScraping.txt") # read whatever is in there, one line at a time
-varnames <- unlist(strsplit(dat[1], ";")) # extract variable names
+#Clean the text file
+
+dat <- readLines("Data\\CathoScrapping.txt") # read whatever is in there, one line at a time
+varnames <- unlist(strsplit(dat[1], "@")) # extract variable names
 nvar <- length(varnames)
 
 k <- 1 # setting up a counter
@@ -17,18 +19,22 @@ while(k <= length(dat)){
   }
   temp <- dat[k]
   # checks if there are enough commas or if the line was broken
-  while(length(gregexpr(";", temp)[[1]]) < nvar-1){
+  while(length(gregexpr("@", temp)[[1]]) < nvar-1){
     k <- k + 1
     temp <- paste0(temp, stringr::str_trim(dat[k]))
   }
-  temp <- unlist(strsplit(temp, ";"))
+  temp <- unlist(strsplit(temp, "@"))
   #message(k)
   dat1 <- rbind(dat1, temp)
 }
 
-empregos <- data.frame(dat1)
-empregos<-empregos[-1,] 
-empregos2<-empregos[which(empregos$I!="I"),]
+catho <- data.frame(dat1)
+catho<-catho[-1,]
+#Save the data
+saveRDS(catho,"Data\\Catho.rds")
 
-saveRDS(empregos2,"Data\\Empregos.rds")
+
+
+
+
 
